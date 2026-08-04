@@ -46,3 +46,14 @@ The entire pipeline (Data Loading, Preprocessing, Model Initialization, Training
 - **Phase 2 (Training):** EfficientNet-B3 is trained using Focal Loss (gamma=2.0) over 15 epochs. Progress (Train Loss, Val ACER) will be printed per epoch. The best model weights will be saved locally as `best_liveness_model.pth`.
 - **Phase 3 (Evaluation):** The notebook calculates and reports ISO/IEC 30107-3 metrics (APCER, BPCER, ACER) on the evaluation set.
 - **Phase 4 (Interpretability):** Grad-CAM heatmaps are generated to visualize the network's attention on spoofing artifacts (e.g., screen edges, reflections).
+- 
+## 📁 Estructura del Repositorio
+
+- `Detection_Spoof.ipynb`: Notebook principal con el pipeline completo.
+- `requirements.txt`: Dependencias necesarias para ejecutar el código.
+- `results/`: Carpeta con todas las figuras generadas:
+  - `eda_distribution.png`: Análisis de la distribución de clases.
+  - `training_curves.png`: Curvas de entrenamiento y validación.
+  - `test_results.png`: Matriz de confusión, curva ROC y DET.
+  - `gradcam_analysis.png`: Mapas de activación (Grad-CAM) para interpretabilidad.
+
