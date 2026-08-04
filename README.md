@@ -1,59 +1,55 @@
-# Face Anti-Spoofing Detection under Extreme Class Imbalance
+# 🛡️ Face Anti-Spoofing Detection under Extreme Class Imbalance
 
-This repository contains the official implementation of the Final Project for the **Computer Vision Master's Course** at Universidad Nacional de Ingeniería (UNI). 
+[![Made with Jupyter](https://img.shields.io/badge/Made%20with-Jupyter-orange?style=for-the-badge&logo=Jupyter)](https://jupyter.org/try)
+[![Open In Colab](https://img.shields.io/badge/Open%20in-Colab-blue?style=for-the-badge&logo=googlecolab)](https://colab.research.google.com/github/yasminum/Face-AntiSpoofing-UNI/blob/main/Detection_Spoof.ipynb)
 
-The project addresses Presentation Attack Detection (PAD) using a static image approach, classifying faces as *Bona Fide* (real) or *Spoof* (attack). It employs **EfficientNet-B3**, **Focal Loss**, and **Weighted Random Sampling** to handle the severe 8:1 class imbalance present in real-world scenarios.
+![Python](https://img.shields.io/badge/python-3.8+-blue?style=flat-square&logo=python)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red?style=flat-square&logo=pytorch)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 
-## 1. Hardware Environment
-The code was executed and validated on the UNI JupyterHub AI Lab environment (`ai-lab.pitvirtual.uni.edu.pe`) using the **PyTorch server option**:
-- **CPU:** 24 Cores
+Repositorio oficial del proyecto final para el curso de **Maestría en Visión por Computador** en la **Universidad Nacional de Ingeniería (UNI)**.
+
+El proyecto aborda la **Detección de Ataques de Presentación (PAD)** mediante un enfoque de imagen estática. Clasifica rostros como *Bona Fide* (reales) o *Spoof* (ataques). Utiliza **EfficientNet-B3**, **Focal Loss** y **Muestreo Aleatorio Ponderado** para manejar el severo desbalance de clases (8:1) presente en escenarios del mundo real.
+
+---
+
+## 📊 Resultados Clave
+
+Nuestro modelo logró un rendimiento robusto en el conjunto de **evaluación** del dataset LCC-FASD:
+
+| Métrica (ISO/IEC 30107-3) | Resultado |
+| :--- | :--- |
+| **ACER** (Tasa de Error Promedio) | **7.22%** ✅ |
+| **APCER** (Error en Ataques) | **2.66%** |
+| **BPCER** (Error en Presentaciones Reales) | **11.78%** |
+| **Exactitud** | **96.97%** |
+| **AUC-ROC** | **0.9866** |
+
+---
+
+## 💻 Entorno de Hardware
+
+El código fue ejecutado y validado en el entorno JupyterHub del laboratorio de IA de la UNI (`ai-lab.pitvirtual.uni.edu.pe`) con la opción **PyTorch**:
+
+- **CPU:** 24 Núcleos
 - **RAM:** 32 GB
 - **GPU:** 1 GPU (NVIDIA)
-- **Disk:** 100 GB
+- **Disco:** 100 GB
 
-## 2. Dataset Setup (Important)
-To ensure reproducibility without exceeding repository size limits, the dataset is not included in this repository. We utilize the **Large Crowd-Collected Face Anti-Spoofing Dataset (LCC-FASD)**.
+---
 
-1. Download the dataset (~4.84 GB) from Kaggle: 
-   👉 [LCC-FASD Dataset Link](https://www.kaggle.com/datasets/faber24/lcc-fasd)
-2. Extract the `.zip` file.
-3. Place the extracted folder in the root directory of this project and rename it to `data/lcc_fasd/`. The expected structure is:
-   ```text
-   data/lcc_fasd/LCC_FASD/
-   ├── LCC_FASD_training/
-   ├── LCC_FASD_development/
-   └── LCC_FASD_evaluation/
-   ```
+## 📁 Configuración del Dataset
 
-## 3. Installation & Dependencies
-Ensure you have Python 3.8+ installed. Install the required dependencies by running the following command in your terminal:
+Para mantener el repositorio ligero, el dataset **no está incluido**. Utilizamos el **LCC-FASD** (Large Crowd-Collected Face Anti-Spoofing Dataset) [enlace al dataset original] (https://www.kaggle.com/datasets/faber24/lcc-fasd).
 
-```bash
-pip install -r requirements.txt
-```
+1.  Descarga el dataset (~4.84 GB) desde Kaggle.
+2.  Extrae el archivo `.zip`.
+3.  Coloca la carpeta extraída en la raíz del proyecto y renómbrala a `data/lcc_fasd/`.
 
-*Key dependencies include:* `torch`, `torchvision`, `timm` (for EfficientNet), `albumentations` (for robust PAD augmentations), `scikit-learn` (for ISO metrics), and `grad-cam`.
+La estructura esperada es:
 
-## 4. How to Run the Code and Reproduce Experiments
-The entire pipeline (Data Loading, Preprocessing, Model Initialization, Training, and Evaluation) is encapsulated within a single Jupyter Notebook for ease of execution.
-
-1. Open Jupyter Notebook / JupyterLab.
-2. Launch the `Detection_Spoof.ipynb` notebook.
-3. **Run All Cells sequentially.** 
-
-### What to expect during execution:
-- **Phase 1 (Data Prep):** The notebook automatically applies `Albumentations` (resizing to 300x300, avoiding heavy blur to preserve moiré patterns) and sets up the `WeightedRandomSampler`.
-- **Phase 2 (Training):** EfficientNet-B3 is trained using Focal Loss (gamma=2.0) over 15 epochs. Progress (Train Loss, Val ACER) will be printed per epoch. The best model weights will be saved locally as `best_liveness_model.pth`.
-- **Phase 3 (Evaluation):** The notebook calculates and reports ISO/IEC 30107-3 metrics (APCER, BPCER, ACER) on the evaluation set.
-- **Phase 4 (Interpretability):** Grad-CAM heatmaps are generated to visualize the network's attention on spoofing artifacts (e.g., screen edges, reflections).
-- 
-## 📁 Estructura del Repositorio
-
-- `Detection_Spoof.ipynb`: Notebook principal con el pipeline completo.
-- `requirements.txt`: Dependencias necesarias para ejecutar el código.
-- `results/`: Carpeta con todas las figuras generadas:
-  - `eda_distribution.png`: Análisis de la distribución de clases.
-  - `training_curves.png`: Curvas de entrenamiento y validación.
-  - `test_results.png`: Matriz de confusión, curva ROC y DET.
-  - `gradcam_analysis.png`: Mapas de activación (Grad-CAM) para interpretabilidad.
-
+```text
+data/lcc_fasd/LCC_FASD/
+├── LCC_FASD_training/
+├── LCC_FASD_development/
+└── LCC_FASD_evaluation/
